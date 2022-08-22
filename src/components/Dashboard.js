@@ -5,9 +5,6 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { createEncryptedMessage } from "../services/firebase";
 
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "../firebase.config";
-
 function Dashboard() {
   const [value, setValue] = useState("");
 
@@ -16,13 +13,10 @@ function Dashboard() {
     console.log("subit pressed");
 
     try {
-      const docRef = await addDoc(collection(db, "messages"), {
-        message: value,
-        password: "",
-      });
-      console.log("Document written with ID: ", docRef.id);
+      await createEncryptedMessage(value, "");
+      console.log("Success");
     } catch (e) {
-      console.error("Error adding document: ", e);
+      console.error("zyzz err", e);
     }
 
     //TODO: Password
