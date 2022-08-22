@@ -8,8 +8,6 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
 import MuiAlert from "@mui/material/Alert";
 
 import Confetti from "react-confetti";
@@ -39,22 +37,13 @@ function EncryptedMessage() {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
-  // console.log("DIMESNTIONS: ", windowDimensions);
-
   const handleClick = () => {
     setOpen(true);
   };
 
   const handleSubmit = async () => {
-    // console.log(
-    //   "In handleSubmit, password = ",
-    //   password,
-    //   "data.password = ",
-    //   data.password
-    // );
     if (password === data.password) {
       setPassword("");
-      //await
       setShowMessage(true);
       setAskPassword(null);
       await deleteDoc(doc(db, "messages", uniqueId.toString()));
@@ -70,57 +59,20 @@ function EncryptedMessage() {
     setOpen(false);
   };
 
-  const action = (
-    <React.Fragment>
-      <Button color="secondary" size="small" onClick={handleClose}>
-        UNDO
-      </Button>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleClose}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </React.Fragment>
-  );
-
   useEffect(() => {
     async function fetchData() {
       const docRef = doc(db, "messages", uniqueId.toString());
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        // console.log("Document data:", docSnap.data());
         setData({
           message: docSnap.data().message,
           password: docSnap.data().password,
         });
-        // console.log("DATA: ", data);
         setAskPassword(true);
-        // await deleteDoc(doc(db, "messages", uniqueId.toString()));
       } else {
-        // doc.data() will be undefined in this case
-        // console.log("No such document!");
         setError("NO SUCH DOC");
       }
-      //TODO: WHY THE HELL IS THE BELOW CODE NOT WORKING!?????
-      //I NEED TO WORK ON ASYNC FUNCTIONS MAN
-      // try {
-      //   let result = await getEncryptedMessage(uniqueId);
-      //   // setData({ message: result.message, password: result.password });
-      //   console.log("RESULT IS !!", result);
-      //   if (result === 123) {
-      //     console.log("FFFF");
-      //     setError("Page doesn't exist");
-      //   }
-
-      //   console.log("MSSG: ", data?.message);
-      //   console.log("Password: ", data?.password);
-      // } catch (err) {
-      //   console.log("ERROR BABY!", err);
-      // }
     }
 
     fetchData();
@@ -128,12 +80,6 @@ function EncryptedMessage() {
 
   return (
     <div>
-      {/*  */}
-      {/* {!data.password && data.message} */}
-      {/*  */}
-      {/*  */}
-      {/*  */}
-
       {askPassword && (
         <Box
           display="flex"

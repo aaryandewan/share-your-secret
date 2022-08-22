@@ -28,11 +28,6 @@ function Dashboard() {
     } catch (e) {
       console.error("zyzz err", e);
     }
-
-    //TODO: Password
-    // await createEncryptedMessage(value, "");
-    // console.log("Message has been written successfully");
-    // setValue("");
   };
 
   return (
@@ -66,7 +61,19 @@ function Dashboard() {
                 webkitTextFillColor: "transparent",
               }}
             >
-              Share your secret below!
+              Share your secret!
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12} md={12} style={{ backgroundColor: "" }}>
+            <Typography
+              gutterBottom
+              textAlign="center"
+              sx={{ typography: { sm: "h6", xs: "body2" } }}
+              style={{}}
+            >
+              Type in a secret message and share that link with someone...Once
+              they see that message, the link will self destruct!
             </Typography>
           </Grid>
 
