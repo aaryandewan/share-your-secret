@@ -12,20 +12,10 @@ import { Link } from "react-router-dom";
 
 const theme = createTheme();
 
-// theme.typography.h2 = {
-//   fontSize: "1.2rem",
-//   "@media (min-width:600px)": {
-//     fontSize: "1.5rem",
-//     fontFamily: "Raleway",
-//   },
-//   [theme.breakpoints.up("md")]: {
-//     fontSize: "3rem",
-//   },
-// };
-
 function Dashboard() {
   const [value, setValue] = useState("");
   const [encryptedURL, setEncryptedURL] = useState("");
+  const [disabled, setDisabled] = useState(true);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -69,6 +59,13 @@ function Dashboard() {
               gutterBottom
               textAlign="center"
               sx={{ typography: { sm: "h2", xs: "h4" } }}
+              style={{
+                background: "rgb(131,58,180)",
+                background:
+                  "linear-gradient(90deg, rgba(131,58,180,1) 13%, rgba(253,62,29,1) 67%, rgba(252,176,69,1) 100%)",
+                webkitBackgroundClip: "text",
+                webkitTextFillColor: "transparent",
+              }}
             >
               Share your secret below!
             </Typography>
@@ -79,10 +76,16 @@ function Dashboard() {
               fullWidth
               id="outlined-multiline-static"
               label="Add your secret message here..."
-              multiline
               rows={4}
               onChange={(e) => setValue(e.target.value)}
-              // style={{ backgroundColor: "pink" }}
+              sx={{
+                input: {
+                  color: "black",
+
+                  borderColor: "white",
+                },
+              }}
+              color="success"
             />
           </Grid>
           <Grid
@@ -112,9 +115,19 @@ function Dashboard() {
               }}
             >
               <div>
-                {/* <Typography variant="h6"> Your link is availabe at: </Typography> */}
                 <Typography sx={{ typography: { sm: "h6", xs: "body2" } }}>
-                  Your link is availabe at: {encryptedURL}
+                  Your link is availabe at:
+                  <div
+                    style={{
+                      background: "rgb(131,58,180)",
+                      background:
+                        "linear-gradient(90deg, rgba(131,58,180,1) 13%, rgba(253,62,29,1) 67%, rgba(252,176,69,1) 100%)",
+                      webkitBackgroundClip: "text",
+                      webkitTextFillColor: "transparent",
+                    }}
+                  >
+                    {encryptedURL}
+                  </div>
                 </Typography>
               </div>
             </Grid>
