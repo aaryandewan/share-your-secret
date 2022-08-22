@@ -5,6 +5,8 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { createEncryptedMessage } from "../services/firebase";
 
+import { Link } from "react-router-dom";
+
 function Dashboard() {
   const [value, setValue] = useState("");
   const [encryptedURL, setEncryptedURL] = useState("");
@@ -15,9 +17,7 @@ function Dashboard() {
 
     try {
       let docRefId = await createEncryptedMessage(value, "");
-      setEncryptedURL(
-        "http://localhost:3000/messages/" + docRefId.toString() + "/"
-      );
+      setEncryptedURL("/messages/" + docRefId.toString() + "/");
     } catch (e) {
       console.error("zyzz err", e);
     }
@@ -37,7 +37,7 @@ function Dashboard() {
       noValidate
       autoComplete="off"
     >
-      {encryptedURL}
+      {<Link to={encryptedURL}>{encryptedURL}</Link>}
       <TextField
         id="outlined-multiline-static"
         label="Add your secret message here..."

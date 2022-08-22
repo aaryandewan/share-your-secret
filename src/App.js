@@ -10,7 +10,10 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Dashboard />}></Route>
-        <Route path="/message/:uniqueId" element={<EncryptedMessage />}></Route>
+        <Route
+          path="/messages/:uniqueId"
+          element={<EncryptedMessage />}
+        ></Route>
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </Router>
