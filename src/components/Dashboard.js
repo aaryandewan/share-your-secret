@@ -22,7 +22,7 @@ function Dashboard() {
     try {
       let docRefId = await createEncryptedMessage(value, "");
       setEncryptedURL(
-        "http://localhost:3000/messages/" + docRefId.toString() + "/"
+        window.location.origin + "/messages/" + docRefId.toString() + "/"
       );
     } catch (e) {
       console.error("zyzz err", e);
