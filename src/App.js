@@ -1,11 +1,8 @@
-
+import { app } from "./firebase.config";
 
 function App() {
-  return (
-    <div className="App">
-      Hello
-    </div>
-  );
+  console.log(app);
+  return <div className="App">Hello</div>;
 }
 
 export default App;
