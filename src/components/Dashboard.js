@@ -13,14 +13,15 @@ function Dashboard() {
   const [value, setValue] = useState("");
   const [encryptedURL, setEncryptedURL] = useState("");
   const [disabled, setDisabled] = useState(false);
+  const [password, setPassword] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("subit pressed");
+    console.log("submit pressed");
     setDisabled(true);
 
     try {
-      let docRefId = await createEncryptedMessage(value, "");
+      let docRefId = await createEncryptedMessage(value, password);
       setEncryptedURL(
         window.location.origin + "/messages/" + docRefId.toString() + "/"
       );
@@ -86,6 +87,26 @@ function Dashboard() {
               color="success"
             />
           </Grid>
+
+          <Grid item md={7} xs={9} style={{ backgroundColor: "" }}>
+            <TextField
+              fullWidth
+              id="outlined-multiline-static"
+              label="Enter a password to encrypt this file"
+              type="password"
+              rows={4}
+              onChange={(e) => setPassword(e.target.value)}
+              sx={{
+                input: {
+                  color: "black",
+
+                  borderColor: "white",
+                },
+              }}
+              color="success"
+            />
+          </Grid>
+
           <Grid
             item
             md={6}

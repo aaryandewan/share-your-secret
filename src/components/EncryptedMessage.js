@@ -5,11 +5,70 @@ import { db } from "../firebase.config";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import MuiAlert from "@mui/material/Alert";
 
 function EncryptedMessage() {
   let { uniqueId } = useParams();
   const [error, setError] = useState("");
   const [data, setData] = useState({ message: "", password: "" });
+  const [password, setPassword] = useState("");
+  const [askPassword, setAskPassword] = useState("");
+  const [showMessage, setShowMessage] = useState(null);
+  const [open, setOpen] = React.useState(false);
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleSubmit = async () => {
+    console.log(
+      "In handleSubmit, password = ",
+      password,
+      "data.password = ",
+      data.password
+    );
+    if (password === data.password) {
+      setPassword("");
+      //await
+      setShowMessage(true);
+      setAskPassword(null);
+      await deleteDoc(doc(db, "messages", uniqueId.toString()));
+    } else {
+      handleClick();
+    }
+  };
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={handleClose}>
+        UNDO
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   useEffect(() => {
     async function fetchData() {
@@ -22,7 +81,9 @@ function EncryptedMessage() {
           message: docSnap.data().message,
           password: docSnap.data().password,
         });
-        await deleteDoc(doc(db, "messages", uniqueId.toString()));
+        console.log("DATA: ", data);
+        setAskPassword(true);
+        // await deleteDoc(doc(db, "messages", uniqueId.toString()));
       } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
@@ -56,7 +117,85 @@ function EncryptedMessage() {
       {/*  */}
       {/*  */}
       {/*  */}
-      {data.message && (
+
+      {askPassword && (
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          minHeight="100vh"
+          style={{ height: "100vh", backgroundColor: "" }}
+        >
+          {/* <Snackbar
+            open={open}
+            autoHideDuration={6000}
+            onClose={handleClose}
+            message="Wrong password!"
+            action={action}
+          /> */}
+
+          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            <Alert
+              onClose={handleClose}
+              severity="error"
+              sx={{ width: "100%" }}
+            >
+              Wrong password!
+            </Alert>
+          </Snackbar>
+          <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            // alignItems="center"
+            alignItems="center"
+            style={{ backgroundColor: "", height: "30vh" }}
+          >
+            <Grid item md={12} xs={12} style={{ backgroundColor: "" }}>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <Typography sx={{ typography: { sm: "h2", xs: "h6" } }}>
+                  Enter the password to see the secret text
+                </Typography>
+              </div>
+            </Grid>
+
+            <Grid item md={4} xs={12} style={{ backgroundColor: "" }}>
+              <TextField
+                fullWidth
+                id="outlined-multiline-static"
+                label="Enter your password..."
+                rows={4}
+                onChange={(e) => setPassword(e.target.value)}
+                sx={{
+                  input: {
+                    color: "black",
+
+                    borderColor: "white",
+                  },
+                }}
+                color="success"
+              />
+            </Grid>
+
+            <Grid
+              item
+              md={12}
+              xs={12}
+              style={{
+                backgroundColor: "",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Button onClick={handleSubmit} variant="outlined">
+                Check!
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
+      )}
+
+      {showMessage && (
         <Box
           display="flex"
           justifyContent="center"
