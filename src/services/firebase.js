@@ -7,8 +7,8 @@ export async function createEncryptedMessage(message, password) {
       message: message,
       password: password,
     });
+    console.log("Document written with ID: ", docRef.id);
     return docRef.id;
-    // console.log("Document written with ID: ", docRef.id);
   } catch (e) {
     console.error("Error adding document: ", e);
   }
