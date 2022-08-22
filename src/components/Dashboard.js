@@ -17,7 +17,7 @@ function Dashboard() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("submit pressed");
+    // console.log("submit pressed");
     setDisabled(true);
 
     try {

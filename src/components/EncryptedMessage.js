@@ -12,6 +12,16 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import MuiAlert from "@mui/material/Alert";
 
+import Confetti from "react-confetti";
+
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height,
+  };
+}
+
 function EncryptedMessage() {
   let { uniqueId } = useParams();
   const [error, setError] = useState("");
@@ -20,22 +30,28 @@ function EncryptedMessage() {
   const [askPassword, setAskPassword] = useState("");
   const [showMessage, setShowMessage] = useState(null);
   const [open, setOpen] = React.useState(false);
+  // const { width, height } = useWindowSize();
+  const [windowDimensions, setWindowDimensions] = useState(
+    getWindowDimensions()
+  );
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
+
+  // console.log("DIMESNTIONS: ", windowDimensions);
 
   const handleClick = () => {
     setOpen(true);
   };
 
   const handleSubmit = async () => {
-    console.log(
-      "In handleSubmit, password = ",
-      password,
-      "data.password = ",
-      data.password
-    );
+    // console.log(
+    //   "In handleSubmit, password = ",
+    //   password,
+    //   "data.password = ",
+    //   data.password
+    // );
     if (password === data.password) {
       setPassword("");
       //await
@@ -76,17 +92,17 @@ function EncryptedMessage() {
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
+        // console.log("Document data:", docSnap.data());
         setData({
           message: docSnap.data().message,
           password: docSnap.data().password,
         });
-        console.log("DATA: ", data);
+        // console.log("DATA: ", data);
         setAskPassword(true);
         // await deleteDoc(doc(db, "messages", uniqueId.toString()));
       } else {
         // doc.data() will be undefined in this case
-        console.log("No such document!");
+        // console.log("No such document!");
         setError("NO SUCH DOC");
       }
       //TODO: WHY THE HELL IS THE BELOW CODE NOT WORKING!?????
@@ -165,6 +181,7 @@ function EncryptedMessage() {
                 id="outlined-multiline-static"
                 label="Enter your password..."
                 rows={4}
+                type="password"
                 onChange={(e) => setPassword(e.target.value)}
                 sx={{
                   input: {
@@ -211,6 +228,10 @@ function EncryptedMessage() {
             alignItems="center"
             style={{ backgroundColor: "", height: "30vh" }}
           >
+            <Confetti
+              width={windowDimensions.width}
+              height={windowDimensions.height}
+            />
             <Grid item md={12} xs={12} style={{ backgroundColor: "" }}>
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <Typography sx={{ typography: { sm: "h2", xs: "h6" } }}>
