@@ -7,14 +7,17 @@ import { createEncryptedMessage } from "../services/firebase";
 
 function Dashboard() {
   const [value, setValue] = useState("");
+  const [encryptedURL, setEncryptedURL] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log("subit pressed");
 
     try {
-      await createEncryptedMessage(value, "");
-      console.log("Success");
+      let docRefId = await createEncryptedMessage(value, "");
+      setEncryptedURL(
+        "http://localhost:3000/messages/" + docRefId.toString() + "/"
+      );
     } catch (e) {
       console.error("zyzz err", e);
     }
@@ -34,6 +37,7 @@ function Dashboard() {
       noValidate
       autoComplete="off"
     >
+      {encryptedURL}
       <TextField
         id="outlined-multiline-static"
         label="Add your secret message here..."
