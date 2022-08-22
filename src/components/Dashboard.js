@@ -1,25 +1,23 @@
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import { createEncryptedMessage } from "../services/firebase";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-import { Link } from "react-router-dom";
-
 const theme = createTheme();
 
 function Dashboard() {
   const [value, setValue] = useState("");
   const [encryptedURL, setEncryptedURL] = useState("");
-  const [disabled, setDisabled] = useState(true);
+  const [disabled, setDisabled] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log("subit pressed");
+    setDisabled(true);
 
     try {
       let docRefId = await createEncryptedMessage(value, "");
@@ -98,7 +96,11 @@ function Dashboard() {
               justifyContent: "center",
             }}
           >
-            <Button onClick={handleSubmit} variant="outlined">
+            <Button
+              onClick={handleSubmit}
+              variant="outlined"
+              disabled={disabled}
+            >
               Submit your secret message!
             </Button>
           </Grid>
